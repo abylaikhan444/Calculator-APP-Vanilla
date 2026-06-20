@@ -39,4 +39,4 @@
 
 1. Склонируйте репозиторий:
    ```bash
-   git clone [https://github.com/ваш-логин/название-репозитория.git](https://github.com/ваш-логин/название-репозитория.git)
+   git clone [https://github.com/abylaikhan444/Calculator-APP-Vanilla.git](https://github.com/abylaikhan444/Calculator-APP-Vanilla.git)
