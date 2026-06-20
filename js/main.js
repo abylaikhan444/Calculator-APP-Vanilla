@@ -12,6 +12,7 @@ let operation = null;
 // экраны result и write
 const writeBox = document.querySelector('.calculator__par-1__write-box');
 const resultBox = document.querySelector('.calculator__par-1__result-box');
+const calculateBody = document.querySelector('.calculator__box');
 
 // кнопки цифр и операции
 const number1 = document.querySelector('#btn-1');
@@ -24,13 +25,14 @@ const number7 = document.querySelector('#btn-7');
 const number8 = document.querySelector('#btn-8');
 const number9 = document.querySelector('#btn-9');
 const dot = document.querySelector('#btn-dot');
+const themsBtn = document.querySelector('#btn-theme');
 
 const plusOperation = document.querySelector('#btn-plus');
 const minusOperation = document.querySelector('#btn-minus');
 const multipleOperation = document.querySelector('#btn-multiple');
 const divideOperation = document.querySelector('#btn-divide');
 const acOperation = document.querySelector('#btn-ac');
-const equaloperation = document.querySelector('#btn-equal')
+const equalOperation = document.querySelector('#btn-equal')
 
 
 // #2 Displaying Numbers on the Screen
@@ -46,52 +48,107 @@ function appendNumber(number) {
 
 function updateDisplay() {
     resultBox.textContent = currentInput;
+
+    if (operation !== null) {
+        writeBox.textContent = `${previousInput} ${operation}`;
+    } else {
+        writeBox.textContent = '';
+    }
 }
+
+function chooseOperation(op) {
+    if (currentInput === '') return;
+
+    if (previousInput !== '') {
+        calculate();
+    }
+
+    operation = op;
+    previousInput = currentInput;
+    currentInput = '';
+}
+
+function calculate() {
+    let computation
+
+    const prev = parseFloat(previousInput);
+    const current = parseFloat(currentInput);
+
+    if (isNaN(prev) || isNaN(current)) return;
+
+    switch (operation) {
+        case '+':
+            computation = prev + current;
+            break;
+        case '-':
+            computation = prev - current;
+            break;
+        case '×':
+            computation = prev * current;
+            break;
+        case '÷':
+            if (current === 0) {
+                currentInput = 'Error!';
+                operation = null;
+                previousInput = '';
+                return;
+            }
+            computation = prev / current;
+            break;
+        default:
+            break;
+    }
+    computation = parseFloat(computation.toFixed(10));
+    currentInput = computation.toString();
+    operation = null;
+    previousInput = '';
+}
+
 
 // Навешиваем клики на кнопки
 number1.addEventListener('click', () => {
-    appendNumber('1');  // Отправляем единицу в функцию
-    updateDisplay();    // Обновляем экран
+    appendNumber('1');
+    updateDisplay();
 });
 
 number2.addEventListener('click', () => {
-    appendNumber('2');  // Отправляем двойку
-    updateDisplay();    // Обновляем экран
+    appendNumber('2');
+    updateDisplay();
 });
 
 number3.addEventListener('click', () => {
-    appendNumber('3');  // Отправляем двойку
-    updateDisplay();    // Обновляем экран
+    appendNumber('3');
+    updateDisplay();
 });
 
 number4.addEventListener('click', () => {
-    appendNumber('4');  // Отправляем двойку
-    updateDisplay();    // Обновляем экран
+    appendNumber('4');
+    updateDisplay();
 });
 
 number5.addEventListener('click', () => {
-    appendNumber('5');  // Отправляем двойку
-    updateDisplay();    // Обновляем экран
+    appendNumber('5');
+    updateDisplay();
 });
 
 number6.addEventListener('click', () => {
-    appendNumber('6');  // Отправляем двойку
-    updateDisplay();    // Обновляем экран
+    appendNumber('6');
+    updateDisplay();
 });
 
 number7.addEventListener('click', () => {
-    appendNumber('7');  // Отправляем двойку
-    updateDisplay();    // Обновляем экран
+    appendNumber('7');
+    updateDisplay();
 });
 
 number8.addEventListener('click', () => {
-    appendNumber('8');  // Отправляем двойку
-    updateDisplay();    // Обновляем экран
+    appendNumber('8');
+    updateDisplay();
 });
 
 number9.addEventListener('click', () => {
-    appendNumber('9');  // Отправляем двойку
-    updateDisplay();    // Обновляем экран
+    appendNumber('9');
+    updateDisplay();
 });
 
 dot.addEventListener('click', () => {
@@ -101,28 +158,33 @@ dot.addEventListener('click', () => {
 
 acOperation.addEventListener('click', () => {
     currentInput = '';
+    previousInput = '';
+    operation = null;
     updateDisplay();
 })
 
 plusOperation.addEventListener('click', () => {
-    appendNumber('+');
+    chooseOperation('+');
     updateDisplay();
 })
 
 minusOperation.addEventListener('click', () => {
-    appendNumber('-');
+    chooseOperation('-');
     updateDisplay();
 })
 
 multipleOperation.addEventListener('click', () => {
-    appendNumber('×');
+    chooseOperation('×');
     updateDisplay();
 })
 
 divideOperation.addEventListener('click', () => {
-    appendNumber('÷');
+    chooseOperation('÷');
     updateDisplay();
 })
 
+equalOperation.addEventListener('click', () => {
+    calculate();
+    updateDisplay();
+})
 
-console.log(currentInput);
